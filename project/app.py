@@ -5,10 +5,6 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://chaeyi0318:test@cluster0.xa9ngty.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
-doc = {
-
-}
-
 @app.route('/')
 def home():
     return render_template('index.html')
