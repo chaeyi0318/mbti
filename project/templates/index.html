@@ -38,8 +38,9 @@
             align-items: center;
             justify-content: center;
         }
-        li {
+        .board>li {
             list-style: none;
+            margin-right: 800px;
         }
     </style>
     <script>
@@ -83,7 +84,7 @@
 
                         console.log(title, num)
 
-                        let temp_html = `<li>${title}</li>`
+                        let temp_html = `<li>${num}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${title}</li><br>`
 
                         $('#board').append(temp_html)
                     }
