@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>게시판 목록</title>
+    <style>
+        .wrap {
+            background-color: green;
+            width: 1000px;
+            height: 800px;
+            margin: 50px auto auto auto;
+        }
+
+        h1 {
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .board {
+            background-color: gray;
+            width: 100%;
+            height: 650px;
+
+            margin: 50px auto auto auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        li {
+            list-style: none;
+        }
+    </style>
+    <script>
+        setTimeout(function(){
+            location.reload();
+        },3600000);
+
+        $(document).ready(function () {
+            show_title()
+            show_topic()
+        });
+
+        function show_topic() {
+            $.ajax({
+                type: "GET",
+                url: "/board",
+                data: {},
+                success: function (response) {
+                    let rows = response['all_topic']
+
+                    for(let i = 0; i < 1; i++) {
+                        let topic = rows[i]['topic']
+
+                        $('#topic').text(topic)
+                    }
+                }
+            })
+        }
+
+        function show_title() {
+            $.ajax({
+                type: "GET",
+                url: "/board",
+                data: {},
+                success: function (response) {
+                    let rows = response['all_title']
+
+                    for(let i = 0; i < rows.length; i++) {
+                        let title = rows[i]['title']
+
+                        let temp_html = `<li>${title}</li>`
+
+                        $('#board').append(temp_html)
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div class="wrap" id="wrap">
+        <h1><span id="topic"></span></h1>
+        <div class="board" id="board">
+
+        </div>
+    </div>
+</body>
+</html>
