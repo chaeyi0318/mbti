@@ -1,115 +1,396 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI</title>
+    <link rel="stylesheet" href="../static/css/css.css">
+    <!doctype html>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
-
-    <title>게시판 목록</title>
-    <style>
-        * {
-            font-family: 'Gowun Dodum', sans-serif;
-        }
-
-        .wrap {
-            /*background-color: green;*/
-            width: 1000px;
-            height: 800px;
-            margin: 50px auto auto auto;
-        }
-
-        button {
-            float: right;
-        }
-
-        h1 {
-            padding-top: 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .board {
-            /*background-color: gray;*/
-            border: 1px solid gray;
-            width: 100%;
-            height: 650px;
-
-            margin: 50px auto auto auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .board>ul {
-            list-style: none;
-            margin: 20px auto auto 0px;
-        }
-    </style>
     <script>
-        setTimeout(function(){
-            location.reload();
-        },3600000);
-
         $(document).ready(function () {
-            show_title()
-            show_topic()
+            show_board()
+            show_comment()
         });
 
-        function show_topic() {
+        function show_board() {
+            let query = window.location.search;
+            let param = new URLSearchParams(query);
+            let titlenum = param.get('num'); // 현재 조회 중인 제목의 num 값을 titlenum에 넣음
             $.ajax({
-                type: "GET",
-                url: "/board",
-                data: {},
+                type: "post",
+                url: "/board_one",
+                data: {'titlenum_give': titlenum},
                 success: function (response) {
-                    let rows = response['all_topic']
-
-                    for(let i = 0; i < 1; i++) {
-                        let topic = rows[i]['topic']
-
-                        $('#topic').text(topic)
+                    console.log(response)
+                    let rows = (response)['boards']
+                    for (let i = 0; i < rows.length; i++) {
+                        let title = rows[i]['title']
+                        let content = rows[i]['content']
+                        let mbti = rows[i]['mbti']
+                        let temp_html = `<div class="board_view">
+                                            <div class="title">${title}</div>
+                                            <div class="info">
+                                                <dl>
+                                                    <dd>${mbti}</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>조회</dt>
+                                                    <dd>33</dd>
+                                                </dl>
+                                            </div>
+                                            <div class="cont">
+                                                ${content}
+                                            </div>
+                                        </div>`
+                        $('#board_view').append(temp_html)
                     }
                 }
-            })
+            });
         }
 
-        function show_title() {
+        function show_comment() {
+            let query = window.location.search;
+            let param = new URLSearchParams(query);
+            let title_num = param.get('num');
             $.ajax({
-                type: "GET",
-                url: "/board",
-                data: {},
+                type: "post",
+                url: "/mbti_show",
+                data: {'title_num_give': title_num},
                 success: function (response) {
-                    let rows = response['all_title']
+                    let rows = (response)['mbtis']
+                    for (let i = 0; i < rows.length; i++) {
+                        let mbti = rows[i]['mbti']
+                        let comment = rows[i]['comment']
 
-                    for(let i = 0; i < rows.length; i++) {
-                        let title = rows[i]['title']
-                        let num = rows[i]['index']
-
-                        console.log(title, num)
-
-                        let temp_html = `<li class="list-group-item">${num}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${title}</li>`
-                        $('#board').append(temp_html)
+                        let temp_html = ``
+                        {
+                            if (mbti == 'ENFJ') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #5e7e9b">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ENFP') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #fa9d49">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ENTJ') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #42639f">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ENTP') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #C84127">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ESFJ') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #FFD9E0">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ESFP') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #613f75">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ESTJ') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #5f8151">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ESTP') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #F28500">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'INFJ') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #CBD8FB">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'INFP') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #31796d">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'INTJ') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #ae99d2">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'INTP') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #73c2fb">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ISFJ') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #ffcd73">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ISFP') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #9ab973">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ISTJ') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #DCDCDC">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                            if (mbti == 'ISTP') {
+                                temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                   <p class="mbti" style="background-color: #438eac">${mbti}</p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            }
+                        }
+                        $('#comment-list').append(temp_html)
                     }
                 }
-            })
+            });
+        }
+
+        function save_comment() {
+            let query = window.location.search;
+            let param = new URLSearchParams(query);
+
+            let title_num = param.get('num');
+            let comment = $('#comment').val()
+            let mbti = user
+            $.ajax({
+                type: 'POST',
+                url: '/mbti',
+                data: {comment_give: comment, mbti_give: mbti, title_num_give: title_num},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            });
+        }
+
+        function mbti_enfj() {
+            user = 'ENFJ'
+        }
+
+        function mbti_enfp() {
+            user = 'ENFP'
+        }
+
+        function mbti_entj() {
+            user = 'ENTJ'
+        }
+
+        function mbti_entp() {
+            user = 'ENTP'
+        }
+
+        function mbti_esfj() {
+            user = 'ESFJ'
+        }
+
+        function mbti_esfp() {
+            user = 'ESFP'
+        }
+
+        function mbti_estj() {
+            user = 'ESTJ'
+        }
+
+        function mbti_estp() {
+            user = 'ESTP'
+        }
+
+        function mbti_infj() {
+            user = 'INFJ'
+        }
+
+        function mbti_infp() {
+            user = 'INFP'
+        }
+
+        function mbti_intj() {
+            user = 'INTJ'
+        }
+
+        function mbti_intp() {
+            user = 'INTP'
+        }
+
+        function mbti_isfj() {
+            user = 'ISFJ'
+        }
+
+        function mbti_isfp() {
+            user = 'ISFP'
+        }
+
+        function mbti_istj() {
+            user = 'ISTJ'
+        }
+
+        function mbti_istp() {
+            user = 'ISTP'
         }
     </script>
 </head>
 <body>
-    <div class="wrap" id="wrap">
-        <h1><span id="topic"></span></h1>
-        <button class="btn btn-secondary">글쓰기</button>
-        <div class="board">
-            <ul class="list-group list-group-flush" id="board">
 
-            </ul>
-        </div>
+<div class="board_wrap">
+    <div class="board_title">
+        <strong>자유게시판</strong>
     </div>
+    <div class="board_view_wrap" id="board_view">
+    </div>
+</div>
+<div class="mbti_list">
+    <span>
+        <button onclick="mbti_enfj()" class="ENFJ">ENFJ</button>
+    </span>
+    <span>
+        <button onclick="mbti_enfp()" class="ENFP">ENFP</button>
+    </span>
+    <span>
+        <button onclick="mbti_entj()" class="ENTJ">ENTJ</button>
+    </span>
+    <span>
+        <button onclick="mbti_entp()" class="ENTP">ENTP</button>
+    </span>
+    <span>
+        <button onclick="mbti_esfj()" class="ESFJ">ESFJ</button>
+    </span>
+    <span>
+        <button onclick="mbti_esfp()" class="ESFP">ESFP</button>
+    </span>
+    <span>
+        <button onclick="mbti_estj()" class="ESTJ">ESTJ</button>
+    </span>
+    <span>
+        <button onclick="mbti_estp()" class="ESTP">ESTP</button>
+    </span>
+    <p></p>
+    <span>
+        <button onclick="mbti_infj()" class="INFJ">INFJ</button>
+    </span>
+    <span>
+        <button onclick="mbti_infp()" class="INFP">INFP</button>
+    </span>
+    <span>
+        <button onclick="mbti_intj()" class="INTJ">INTJ</button>
+    </span>
+    <span>
+        <button onclick="mbti_intp()" class="INTP">INTP</button>
+    </span>
+    <span>
+        <button onclick="mbti_isfj()" class="ISFJ">ISFJ</button>
+    </span>
+    <span>
+        <button onclick="mbti_isfp()" class="ISFP">ISFP</button>
+    </span>
+    <span>
+        <button onclick="mbti_istj()" class="ISTJ">ISTJ</button>
+    </span>
+    <span>
+        <button onclick="mbti_istp()" class="ISTP">ISTP</button>
+    </span>
+</div>
+<div class="comments" id="comment-list">
+</div>
+<div class="comment">
+    <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="comment"
+                      style="height: 100px"></textarea>
+        <label>댓글</label>
+    </div>
+    <button onclick="save_comment()" type="button" class="btn btn-dark">댓글 달기</button>
+</div>
 </body>
 </html>

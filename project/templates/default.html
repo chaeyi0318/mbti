@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta property="og:title" content="mbti"/>
+    <meta property="og:image" content="이미지"/>
+    <link rel="stylesheet" href="../static/css/css.css">
+    <title>mbti</title>
+    <style>
+        @font-face {
+            font-family: 'yg-jalnan';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+
+        .wrap {
+            font-family: 'yg-jalnan';
+        }
+
+        .test1 {
+            font-family: 'yg-jalnan';
+        }
+
+        .test2 {
+            font-family: 'yg-jalnan';
+        }
+
+        .test3 {
+            font-family: 'yg-jalnan';
+        }
+
+        .test4 {
+            font-family: 'yg-jalnan';
+        }
+
+        .mbti {
+            font-family: 'yg-jalnan';
+        }
+
+        .logo {
+            width: 800px;
+            height: 200px;
+            border-radius: 100%;
+            background-image: url("logo.png");
+            background-position: center;
+            background-size: cover;
+        }
+
+        .main {
+            color: white;
+            font-size: 40px;
+            margin-top: 0px;
+            text-shadow: 10px 10px 10px 10px black;
+        }
+
+        .mbti {
+            color: #ffffff;
+            font-size: 20px;
+            margin-top: 0px;
+
+        }
+
+
+        .wrap {
+            width: 700px;
+            margin: 20px auto 0px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .mbti {
+            width: 700px;
+            margin: 5px auto 0px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .test1 {
+            width: 500px;
+            margin: 20px auto 0px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .test2 {
+            width: 500px;
+            margin: 5px auto 0px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .test3 {
+            width: 500px;
+            margin: 5px auto 0px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .test4 {
+            width: 500px;
+            margin: 5px auto 0px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .test1 > a {
+            width: 100px;
+            height: 100px;
+
+            border-radius: 8px;
+
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 3px 3px 5px 0 black;
+        }
+
+        .test2 > a {
+            width: 100px;
+            height: 100px;
+
+            border-radius: 8px;
+
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 3px 3px 5px 0 black;
+        }
+
+        .test3 > a {
+            width: 100px;
+            height: 100px;
+
+            border-radius: 8px;
+
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 3px 3px 5px 0 black;
+        }
+
+        .test4 > a {
+            width: 100px;
+            height: 100px;
+
+            border-radius: 8px;
+
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 3px 3px 5px 0 black;
+        }
+
+        .test1 > a:hover {
+            background-color: #151515;
+            color: #c4c4c4;
+        }
+
+        .test2 > a:hover {
+            background-color: #151515;
+            color: #c4c4c4;
+        }
+
+        .test3 > a:hover {
+            background-color: #151515;
+            color: #c4c4c4;
+        }
+
+        .test4 > a:hover {
+            background-color: #151515;
+            color: #c4c4c4;
+        }
+
+        .ENFJ {
+            background-color: #5e7e9b;
+            border: none;
+            color: white;
+        }
+
+        .ENFP {
+            background-color: #fa9d49;
+            border: none;
+            color: white;
+        }
+
+        .ENTJ {
+            background-color: #42639f;
+            border: none;
+            color: white;
+        }
+
+        .ENTP {
+            background-color: #C84127;
+            border: none;
+            color: white;
+        }
+
+        .ESFJ {
+            background-color: #FFD9E0;
+            border: none;
+            color: white;
+        }
+
+        .ESFP {
+            background-color: #613f75;
+            border: none;
+            color: white;
+        }
+
+        .ESTJ {
+            background-color: #5f8151;
+            border: none;
+            color: white;
+        }
+
+        .ESTP {
+            background-color: #F28500;
+            border: none;
+            color: white;
+        }
+
+        .INFJ {
+            background-color: #CBD8FB;
+            border: none;
+            color: white;
+        }
+
+        .INFP {
+            background-color: #31796d;
+            border: none;
+            color: white;
+        }
+
+        .INTJ {
+            background-color: #ae99d2;
+            border: none;
+            color: white;
+        }
+
+        .INTP {
+            background-color: #73c2fb;
+            border: none;
+            color: white;
+        }
+
+        .ISFJ {
+            background-color: #ffcd73;
+            border: none;
+            color: white;
+        }
+
+        .ISFP {
+            background-color: #9ab973;
+            border: none;
+            color: white;
+        }
+
+        .ISTJ {
+            background-color: #DCDCDC;
+            border: none;
+            color: white;
+        }
+
+        .ISTP {
+            background-color: #438eac;
+            border: none;
+            color: white;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #800080;
+        }
+
+
+        .bg {
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(65deg, #e803e8 15%,
+            #00d0ff 95%,
+            #ffffff 100%);
+        }
+
+        .glass {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .glass li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            animation: spin 5s linear infinite;
+            bottom: -150px;
+        }
+
+        .glass li:nth-child(1) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+        }
+
+        .glass li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .glass li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .glass li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .glass li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .glass li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .glass li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .glass li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .glass li:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .glass li:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="bg">
+    <ul class="glass">
+        <div class="wrap">
+            <div class="logo"></div>
+            <h1 class="main">당신의 MBTI는 무엇인가요?</h1></div>
+        <a class="mbti"
+           href="https://www.16personalities.com/ko/%EB%AC%B4%EB%A3%8C-%EC%84%B1%EA%B2%A9-%EC%9C%A0%ED%98%95-%EA%B2%80%EC%82%AC">잘
+            모르겠다면?</a>
+        <div class="test1">
+            <a class="ISTJ" href="{{url_for('mbti', user='ISTJ')}}">ISTJ</a>
+            <a class="ISFJ" href="{{url_for('mbti', user='ISFJ')}}">ISFJ</a>
+            <a class="INFJ" href="{{url_for('mbti', user='INFJ')}}">INFJ</a>
+            <a class="INTJ" href="{{url_for('mbti', user='INTJ')}}">INTJ</a>
+        </div>
+
+        <div class="test2">
+            <a class="ISTP" href="{{url_for('mbti', user='ISTP')}}">ISTP</a>
+            <a class="ISFP" href="{{url_for('mbti', user='ISFP')}}">ISFP</a>
+            <a class="INFP" href="{{url_for('mbti', user='INFP')}}">INFP</a>
+            <a class="INTP" href="{{url_for('mbti', user='INTP')}}">INTP</a>
+        </div>
+
+        <div class="test3">
+            <a class="ESTP" href="{{url_for('mbti', user='ESTP')}}">ESTP</a>
+            <a class="ESFP" href="{{url_for('mbti', user='ESFP')}}">ESFP</a>
+            <a class="ENFP" href="{{url_for('mbti', user='ENFP')}}">ENFP</a>
+            <a class="ENTP" href="{{url_for('mbti', user='ENTP')}}">ENTP</a>
+        </div>
+
+        <div class="test4">
+            <a class="ESTJ" href="{{url_for('mbti', user='ESTJ')}}">ESTJ</a>
+            <a class="ESFJ" href="{{url_for('mbti', user='ESFJ')}}">ESFJ</a>
+            <a class="ENFJ" href="{{url_for('mbti', user='ENFJ')}}">ENFJ</a>
+            <a class="ENTJ" href="{{url_for('mbti', user='ENTJ')}}">ENTJ</a>
+        </div>
+
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+
+</body>
+</html>

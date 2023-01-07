@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <title>게시판 목록</title>
+    <style>
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .wrap {
+            /*background-color: green;*/
+            width: 1000px;
+            height: 800px;
+            margin: 50px auto auto auto;
+        }
+
+        button {
+            float: right;
+            font-size: 20px;
+        }
+
+        button > a {
+            color: white;
+        }
+        button > a:hover {
+            color: white;
+            text-decoration-line: underline;
+        }
+
+        h1 {
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .board {
+            /*background-color: gray;*/
+            /*box-shadow: 0px 0px 1px 0px black;*/
+            /*border: 1px solid gray;*/
+            width: 100%;
+            height: 650px;
+
+            margin: 50px auto auto auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .board > table {
+            margin: auto;
+        }
+
+        a {
+            color: #5e5e5e;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #000000;
+            text-decoration-line: underline;
+        }
+    </style>
+
+    <script>
+        var user = `{{mbti}}`
+        setTimeout(function () {
+            location.reload();
+        }, 3600000);
+        $(document).ready(function () {
+            show_title(user)
+            show_topic()
+        });
+
+        function show_topic() {
+            $.ajax({
+                type: "GET",
+                url: "/board",
+                data: {},
+                success: function (response) {
+                    let rows = response['all_topic']
+
+                    for (let i = 0; i < 1; i++) {
+                        let topic = rows[i]['topic']
+
+                        $('#topic').text(topic)
+                    }
+                }
+            })
+        }
+
+        function post_to_url(num,writer_mbti,user_mbti) { //, writer_mbti,user_mbti
+            var newForm = document.createElement("form");
+            newForm.setAttribute("method", "get");
+            newForm.setAttribute("action", "/index.html")
+
+            var numInput = document.createElement("input");
+            var userInput = document.createElement("input");
+            var writerInput = document.createElement("input");
+
+            numInput.setAttribute("type", "hidden");
+            numInput.setAttribute("name", "num");
+            numInput.setAttribute("value", num);
+
+            userInput.setAttribute("type", "hidden");
+            userInput.setAttribute("name", "writer_mbti");
+            userInput.setAttribute("value", writer_mbti);
+
+            writerInput.setAttribute("type", "hidden");
+            writerInput.setAttribute("name", "user_mbti");
+            writerInput.setAttribute("value", user_mbti);
+
+            newForm.appendChild(numInput);
+            newForm.appendChild(userInput);
+            newForm.appendChild(writerInput);
+            document.body.appendChild(newForm);
+
+            newForm.submit();
+        }
+
+        function show_title() {
+            let query = window.location.search;
+            let param = new URLSearchParams(query);
+            let mbti = param.get('user')
+            $.ajax({
+                type: "GET",
+                url: "/board",
+                data: {},
+                success: function (response) {
+                    let rows = response['all_title']
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let title = rows[i]['title']
+                        let num = rows[i]['num'];
+                        let writer_mbti = rows[i]['mbti']
+                        let user_mbti = mbti
+                        console.log(user_mbti)
+                        console.log(writer_mbti)
+                        let a_title = `<a href="javascript:void(0);" onclick="post_to_url(${num},'${writer_mbti}','${user_mbti}')">${title}</a><br>`
+
+                        let a = `<tr>
+                                    <th scope="row" id="num">${num}</th>
+                                    <td id="title">${user_mbti}</td>
+                                    <td id="mbti">${a_title}</td>
+                                    <td id="day"></td>
+                                </tr>`
+
+                        $('#board-table').append(a)
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+
+<div class="wrap" id="wrap">
+    <h1><span id="topic"></span></h1>
+    <button type="button" class="btn btn-secondary"><a href="write.html" class="write">글쓰기</a></button>
+    <div class="board" id="board">
+        <table class="table">
+            <thead id="board-table">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">MBTI</th>
+                <th scope="col">제목</th>
+                <th scope="col">날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
